@@ -17,8 +17,9 @@ I strongly believe that my field can learn a lot from the dynamism and "show, do
 
 ## 🔬 A Need for Better Science Communication
 
-I believe it is crucial for scientists and researchers to demonstrate their work and actively show it to the public. Communicating with the people—on whose money the entire system is built—is very important. It also reduces the possibility of governments or other bodies misrepresenting the science.
+I believe it is crucial for scientists and researchers to demonstrate their work and actively show it to the public. Communicating with the people on whose money the entire system is built is very important. It also reduces the possibility of governments or other bodies misrepresenting the science.
 
 Scientists should show visualizations of their papers and their work. We need better ways to communicate science **beyond the papers** and not remain in the bubble of our peers. Otherwise, the work itself risks losing value.
 
 Now, more than ever, effective and direct science communication is needed at the frontier of research.
+-15-11-2025
