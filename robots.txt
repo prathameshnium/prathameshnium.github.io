@@ -1,4 +1,8 @@
+# Robots.txt for https://prathameshnium.github.io/
+# Allow all crawlers to access the site content
+
 User-agent: *
 Allow: /
 
+# Explicitly point crawlers to the Sitemap
 Sitemap: https://prathameshnium.github.io/sitemap.xml
