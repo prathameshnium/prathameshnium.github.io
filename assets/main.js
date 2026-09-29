@@ -145,10 +145,24 @@
             W = r.width; H = r.height;
             canvas.width = W * dpr; canvas.height = H * dpr;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            // Keep spins faint wherever text sits, so the copy stays readable.
+            var hr = hero.getBoundingClientRect();
+            var boxes = $$('.avatar, h1, .role, .lede, .contact, .chip, .tempbox', hero).map(function (el) {
+                var r = el.getBoundingClientRect();
+                return { l: r.left - hr.left, r: r.right - hr.left, t: r.top - hr.top, b: r.bottom - hr.top };
+            });
+            var FADE = 70;
             cells = [];
             for (var y = GAP / 2; y < H; y += GAP) {
                 for (var x = GAP / 2; x < W; x += GAP) {
-                    cells.push({ x: x, y: y, a: Math.random() * Math.PI * 2, ph: Math.random() * 6.283 });
+                    var d = Infinity;
+                    for (var i = 0; i < boxes.length; i++) {
+                        var bx = boxes[i];
+                        var dx = Math.max(bx.l - x, 0, x - bx.r), dy = Math.max(bx.t - y, 0, y - bx.b);
+                        d = Math.min(d, Math.hypot(dx, dy));
+                    }
+                    var m = Math.min(d / FADE, 1);
+                    cells.push({ x: x, y: y, a: Math.random() * Math.PI * 2, ph: Math.random() * 6.283, m: 0.06 + 0.94 * m * m });
                 }
             }
         }
@@ -180,7 +194,7 @@
                 }
                 c.a += wrap(target - c.a) * (0.06 + 0.14 * order);
                 var align = Math.cos(wrap(c.a - base)) * 0.5 + 0.5;
-                ctx.globalAlpha = 0.18 + 0.6 * align * (0.35 + 0.65 * order) + 0.12 * (1 - order);
+                ctx.globalAlpha = (0.14 + 0.46 * align * (0.35 + 0.65 * order) + 0.08 * (1 - order)) * c.m;
                 var dx = Math.cos(c.a) * LEN / 2, dy = Math.sin(c.a) * LEN / 2;
                 ctx.beginPath();
                 ctx.moveTo(c.x - dx, c.y - dy);
@@ -221,6 +235,7 @@
         function kick(pt) { pulses.push({ x: pt.x, y: pt.y, t0: t, r: 0 }); if (!running) { t += 0.4; draw(); } }
 
         addEventListener('resize', function () { build(); if (!running) draw(); });
+        addEventListener('load', function () { build(); if (!running) draw(); });
         document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
         if ('IntersectionObserver' in window) {
             new IntersectionObserver(function (es) {
